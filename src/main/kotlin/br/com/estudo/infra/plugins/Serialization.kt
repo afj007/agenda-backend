@@ -1,7 +1,7 @@
-package br.com.estudo.plugins
+package br.com.estudo.infra.plugins
 
-import br.com.estudo.controllers.UserController
-import br.com.estudo.request.UsuarioCreateRequest
+import br.com.estudo.application.controllers.UserController
+import br.com.estudo.application.request.UsuarioCreateRequest
 import io.ktor.http.*
 import io.ktor.serialization.gson.*
 import io.ktor.server.application.*

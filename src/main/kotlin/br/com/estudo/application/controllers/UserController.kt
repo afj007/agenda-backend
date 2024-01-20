@@ -1,19 +1,19 @@
-package br.com.estudo.controllers
+package br.com.estudo.application.controllers
 
-import br.com.estudo.model.User
-import br.com.estudo.repository.UsuarioRepository
-import br.com.estudo.request.UsuarioCreateRequest
+import br.com.estudo.domain.model.User
+import br.com.estudo.infra.repository.UserRepository
+import br.com.estudo.application.request.UsuarioCreateRequest
 import java.util.*
 
 class UserController {
 
-    private val repository = UsuarioRepository()
+    private val repository = UserRepository()
 
     fun getAll(): List<User> = repository.getAll()
     fun create(request: UsuarioCreateRequest): User {
         val user = User(
             id = UUID.randomUUID(),
-            nome = request.nome,
+            name = request.nome,
             email = request.email,
             nickname = request.nickname
         )
