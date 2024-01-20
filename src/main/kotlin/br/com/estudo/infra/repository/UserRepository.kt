@@ -1,52 +1,50 @@
 package br.com.estudo.infra.repository
 
 import br.com.estudo.domain.model.User
+import br.com.estudo.infra.config.DataBaseConnect
 import br.com.estudo.infra.table.UserTable
-import io.ktor.server.plugins.*
-import org.ktorm.database.Database
-import org.ktorm.dsl.from
-import org.ktorm.dsl.map
-import org.ktorm.dsl.select
-import org.ktorm.support.postgresql.PostgreSqlDialect
+import org.ktorm.dsl.*
 import java.util.UUID
 
 class UserRepository {
 
     private val dbUsarios = mutableListOf<User>()
-    private val database: Database = Database.connect(
-        "jdbc:postgresql://localhost:5432/postgres",
-        driver = "org.postgresql.Driver",
-        user = "postgres",
-        password = "password",
-        dialect = PostgreSqlDialect()
+    private val database = DataBaseConnect.connect()
+
+    fun add(user: User): Boolean = database.insert(UserTable) {
+        set(UserTable.id, user.id)
+        set(UserTable.name, user.name)
+        set(UserTable.email, user.email)
+        set(UserTable.nickname, user.nickname)
+    } > 0
+
+    fun get(id: UUID): User {
+        return database.from(UserTable).select().where {
+            UserTable.id eq id
+        }.buildUser().first()
+    }
+
+    fun getAll(): List<User> = database.from(UserTable).select().buildUser()
+
+    fun delete(id: UUID): Boolean = database.delete(UserTable) { it.id eq id } > 0
+
+    fun update(user: User): Boolean = database.update(UserTable) {
+        set(UserTable.name, user.name)
+        set(UserTable.email, user.email)
+        set(UserTable.nickname, user.nickname)
+        where {
+            UserTable.id eq user.id
+        }
+    } > 0
+
+    private fun QueryRowSet.buildUser() = User(
+        id = this[UserTable.id]!!,
+        name = this[UserTable.name]!!,
+        email = this[UserTable.email]!!,
+        nickname = this[UserTable.nickname]!!,
     )
 
-    fun add(user: User): User =
-        dbUsarios.add(user).let { if (it) user else throw IllegalArgumentException() }
-
-    fun get(id: UUID): User =
-        dbUsarios.firstOrNull { it.id == id } ?: throw NotFoundException("Usuário nao encontrado com o id: $id")
-
-    fun getAll(): List<User> = database.from(UserTable).select().map {
-        User(
-            id = it[UserTable.id]!!,
-            name = it[UserTable.name]!!,
-            email = it[UserTable.email]!!,
-            nickname = it[UserTable.nickname]!!,
-        )
-    }
-
-    fun delete(id: UUID): Boolean {
-        val sizeBefore = dbUsarios.size
-        dbUsarios.removeAt(dbUsarios.indexOfFirst { it.id == id })
-
-        return sizeBefore > dbUsarios.size
-    }
-
-    fun update(user: User): Boolean {
-        delete(user.id)
-        add(user)
-
-        return dbUsarios.contains(user)
+    private fun Query.buildUser(): List<User> = this.map {
+        it.buildUser()
     }
 }

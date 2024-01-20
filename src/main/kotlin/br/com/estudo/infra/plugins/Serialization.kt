@@ -29,6 +29,14 @@ fun Application.configureSerialization() {
                 call.respond(HttpStatusCode.OK, mapOf("users" to controler.getAll()))
             }
 
+            get("/{id}") {
+                val id = call.parameters["id"] ?: return@get call.respondText(
+                    "Missing id",
+                    status = HttpStatusCode.BadRequest
+                )
+                call.respond(HttpStatusCode.OK, controler.get(UUID.fromString(id)))
+            }
+
             post("/") {
                 val request = call.receive<UsuarioCreateRequest>()
 

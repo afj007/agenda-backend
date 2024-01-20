@@ -10,5 +10,4 @@ object UserTable : Table<Nothing>(tableName = "user", schema = "agenda") {
     val name = text("name")
     val email = text("email")
     val nickname = text("nickname")
-
 }

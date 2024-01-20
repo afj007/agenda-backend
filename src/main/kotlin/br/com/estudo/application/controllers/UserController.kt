@@ -10,7 +10,9 @@ class UserController {
     private val repository = UserRepository()
 
     fun getAll(): List<User> = repository.getAll()
-    fun create(request: UsuarioCreateRequest): User {
+
+    fun get(id: UUID): User = repository.get(id)
+    fun create(request: UsuarioCreateRequest): Boolean {
         val user = User(
             id = UUID.randomUUID(),
             name = request.nome,
@@ -22,4 +24,9 @@ class UserController {
     }
 
     fun delete(id: UUID): Boolean = repository.delete(id)
+
+    fun update(id: UUID, request: UserUpdatedRequest): Boolean {
+
+    }
+
 }
