@@ -21,7 +21,5 @@ class UserController {
         return repository.add(user)
     }
 
-    fun delete(id: UUID): Boolean {
-        return repository.delete(id)
-    }
+    fun delete(id: UUID): Boolean = repository.delete(id)
 }
