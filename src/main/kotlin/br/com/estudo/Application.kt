@@ -1,7 +1,7 @@
 package br.com.estudo
 
-import br.com.estudo.infra.plugins.configureRouting
-import br.com.estudo.infra.plugins.configureSerialization
+import br.com.estudo.application.plugins.configureRouting
+import br.com.estudo.application.plugins.configureSerialization
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*

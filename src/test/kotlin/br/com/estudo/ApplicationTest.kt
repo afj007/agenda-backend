@@ -1,6 +1,6 @@
 package br.com.estudo
 
-import br.com.estudo.infra.plugins.configureRouting
+import br.com.estudo.application.plugins.configureRouting
 import br.com.estudo.plugins.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*

@@ -1,4 +1,4 @@
-package br.com.estudo.infra.plugins
+package br.com.estudo.application.plugins
 
 import io.ktor.server.application.*
 import io.ktor.server.response.*

@@ -6,10 +6,7 @@ import br.com.estudo.infra.table.UserTable
 import org.ktorm.dsl.*
 import java.util.UUID
 
-class UserRepository {
-
-    private val dbUsarios = mutableListOf<User>()
-    private val database = DataBaseConnect.connect()
+class UserRepository: Repository() {
 
     fun add(user: User): Boolean = database.insert(UserTable) {
         set(UserTable.id, user.id)
