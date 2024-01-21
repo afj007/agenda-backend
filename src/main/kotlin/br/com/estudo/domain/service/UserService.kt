@@ -3,7 +3,6 @@ package br.com.estudo.domain.service
 import br.com.estudo.application.request.UserCreateRequest
 import br.com.estudo.application.request.UserUpdatedRequest
 import br.com.estudo.domain.model.User
-import br.com.estudo.infra.config.toUUID
 import br.com.estudo.infra.repository.UserRepository
 import java.util.*
 
