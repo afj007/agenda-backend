@@ -1,7 +1,5 @@
 package br.com.estudo.infra.repository
 
-import br.com.estudo.infra.config.DataBaseConnect
+import org.ktorm.database.Database
 
-abstract class Repository {
-    protected val database = DataBaseConnect.connect()
-}
+interface Repository

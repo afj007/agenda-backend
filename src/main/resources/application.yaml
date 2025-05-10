@@ -1,0 +1,11 @@
+ktor:
+  application:
+    modules:
+      - br.com.estudo.ApplicationKt.module
+  deployment:
+    port: 8081
+storage:
+  driverClassName: "org.postgresql.Driver"
+  jdbcURL: "jdbc:postgresql://localhost:5432/postgres"
+  user: "postgres"
+  password: "password"
