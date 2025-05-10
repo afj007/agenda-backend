@@ -1,8 +1,9 @@
-package br.com.estudo.application.plugins
+package br.com.estudo.application.plugins.routings
 
 import br.com.estudo.application.controllers.UserController
-import br.com.estudo.application.request.UserUpdatedRequest
 import br.com.estudo.application.request.UserCreateRequest
+import br.com.estudo.application.request.UserUpdatedRequest
+import br.com.estudo.infra.repository.UserRepository
 import io.ktor.http.*
 import io.ktor.serialization.gson.*
 import io.ktor.server.application.*
@@ -10,22 +11,23 @@ import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import java.util.logging.Logger
 
-fun Application.configureSerialization() {
-    val userController = UserController()
+fun Application.usuarioRouting(repository: UserRepository) {
 
+    val userController = UserController(repository)
 
     install(ContentNegotiation) {
         gson {
         }
     }
-    routing {
-        get("/json/gson") {
-            call.respond(mapOf("hello" to "world"))
-        }
 
+    routing {
         route("usuarios") {
-            get("/") {
+            get {
+                val users = userController.getAll()
+                this@usuarioRouting.log.info("Listando Usuarios => $users")
+
                 call.respond(HttpStatusCode.OK, mapOf("users" to userController.getAll()))
             }
 
@@ -60,5 +62,9 @@ fun Application.configureSerialization() {
                 call.respond(HttpStatusCode.OK, userController.update(id, request))
             }
         }
+
     }
+
+
+
 }

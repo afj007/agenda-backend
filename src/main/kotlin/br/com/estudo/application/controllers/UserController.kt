@@ -5,11 +5,12 @@ import br.com.estudo.application.request.UserUpdatedRequest
 import br.com.estudo.domain.model.User
 import br.com.estudo.domain.service.UserService
 import br.com.estudo.infra.config.toUUID
-import java.util.*
+import br.com.estudo.infra.repository.UserRepository
 
-class UserController {
 
-    private val service = UserService()
+class UserController(repository: UserRepository) {
+
+    private val service = UserService(repository)
 
     fun getAll(): List<User> = service.getAll()
 
